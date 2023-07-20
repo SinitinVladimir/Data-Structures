@@ -5,41 +5,37 @@ typedef struct {
     float value;
 } Data;
 
-// Function to print array
 void printArray(Data arr[], int size) {
     for (int i=0; i < size; i++)
         printf("ID: %d, Value: %.2f\n", arr[i].id, arr[i].value);
     printf("\n");
 }
 
-// Function to insert element at a position
 int insertElement(Data arr[], int *size, int pos, Data val) {
-    if (pos < 1 || pos > *size + 1) {
+    if (pos < 0 || pos > *size) {
         printf("Invalid position for insertion.\n");
         return -1;
     }
 
-    for (int i=*size; i>=pos; i--)
+    for (int i=*size; i>pos; i--)
         arr[i] = arr[i-1];
-    arr[pos-1] = val;
+    arr[pos] = val;
     (*size)++;
     return 0;
 }
 
-// Function to delete element from a position
 int deleteElement(Data arr[], int *size, int pos) {
-    if (pos < 1 || pos > *size) {
+    if (pos < 0 || pos >= *size) {
         printf("Invalid position for deletion.\n");
         return -1;
     }
 
-    for (int i=pos-1; i<*size; i++)
+    for (int i=pos; i<*size-1; i++)
         arr[i] = arr[i+1];
     (*size)--;
     return 0;
 }
 
-// Function to concatenate two arrays
 void concatenateArrays(Data arr1[], int size1, Data arr2[], int size2, Data result[]) {
     for (int i=0; i<size1; i++)
         result[i] = arr1[i];
@@ -47,7 +43,6 @@ void concatenateArrays(Data arr1[], int size1, Data arr2[], int size2, Data resu
         result[i+size1] = arr2[i];
 }
 
-// Main function
 int main() {
     Data arr[100], arr1[50], arr2[50], result[100];
     int size, size1, size2;
@@ -68,7 +63,6 @@ int main() {
     printf("Original array: \n");
     printArray(arr, size);
 
-    // Inserting an element
     printf("Enter the position and value to insert (id and value): ");
     scanf("%d %d %f", &pos, &val.id, &val.value);
     if (insertElement(arr, &size, pos, val) == -1)
@@ -76,7 +70,6 @@ int main() {
     printf("Array after inserting ID: %d, Value: %.2f at position %d: \n", val.id, val.value, pos);
     printArray(arr, size);
 
-    // Deleting an element
     printf("Enter the position to delete: ");
     scanf("%d", &pos);
     if (deleteElement(arr, &size, pos) == -1)
@@ -95,15 +88,13 @@ int main() {
     for(int i=0; i<size2; i++)
         scanf("%d %f", &arr2[i].id, &arr2[i].value);
 
-    // Concatenating the arrays
     concatenateArrays(arr, size, arr2, size2, result);
     printf("Array after concatenation: \n");
     printArray(result, size+size2);
 
-    // Splitting the array
     printf("Enter the position to split the array: ");
     scanf("%d", &splitIndex);
-    if (splitIndex < 1 || splitIndex > size + size2) {
+    if (splitIndex < 0 || splitIndex > size + size2) {
         printf("Invalid position for splitting the array.\n");
         return -1;
     }
